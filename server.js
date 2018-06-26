@@ -19,6 +19,17 @@ const logger = require('./middleware/logger.js');
 
 app.use(logger.logRequest);
 
+// app.get('/api/notes', (req, res) => {
+//   const searchTerm = req.query.searchTerm;
+//   //console.log('Search term: ', searchTerm);
+//   if(searchTerm){
+//     const filterData = data.filter(item => item.title.includes(searchTerm));
+//     res.json(filterData);
+//   }else{
+//     res.json(data);
+//   }
+// });
+
 app.get('/api/notes', (req, res, next) => {
   const { searchTerm } = req.query;
 
@@ -30,10 +41,22 @@ app.get('/api/notes', (req, res, next) => {
   });
 });
 
-app.get('/api/notes/:id', (req, res) => {
-  const item = data.find(item => item.id === Number(req.params.id));
-  //console.log('item: ', item);
-  res.json(item);
+app.get('/api/notes/:id', (req, res, next) => {
+  const {id} = req.params;
+
+  notes.find(id, (err, item) => {
+    if (err) {
+      return next(err); // goes to error handler
+    }
+    if(item){
+      res.json(item); //return found item
+    }else{
+      res.send('Item not found');
+    }
+  });
+
+  // const item = data.find(item => item.id === Number(req.params.id));
+  // res.json(item);
 });
 
 // app.get('/boom', (req, res, next) => {
