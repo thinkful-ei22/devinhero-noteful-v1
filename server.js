@@ -19,15 +19,15 @@ const logger = require('./middleware/logger.js');
 
 app.use(logger.logRequest);
 
-app.get('/api/notes', (req, res) => {
-  const searchTerm = req.query.searchTerm;
-  //console.log('Search term: ', searchTerm);
-  if(searchTerm){
-    const filterData = data.filter(item => item.title.includes(searchTerm));
-    res.json(filterData);
-  }else{
-    res.json(data);
-  }
+app.get('/api/notes', (req, res, next) => {
+  const { searchTerm } = req.query;
+
+  notes.filter(searchTerm, (err, list) => {
+    if (err) {
+      return next(err); // goes to error handler
+    }
+    res.json(list); // responds with filtered array
+  });
 });
 
 app.get('/api/notes/:id', (req, res) => {
