@@ -3,13 +3,15 @@
 // Load array of notes
 const data = require('./db/notes');
 const { PORT } = require('./config');
-console.log('Hello Noteful!');
+console.log('Hello Noteful  !');
 
 
 // INSERT EXPRESS APP CODE HERE...
 const express = require('express');
+const app = express();
 
-const app = express(); 
+const logger = require('./middleware/logger.js');
+
 
 // ADD STATIC SERVER HERE
 
@@ -19,9 +21,11 @@ app.listen(PORT, function () {
   console.error(err);
 });
 
+app.use(logger.logRequest);
+
 app.get('/api/notes', (req, res) => {
   const searchTerm = req.query.searchTerm;
-  console.log(searchTerm);
+  console.log('Search term: ', searchTerm);
   if(searchTerm){
     const filterData = data.filter(item => item.title.includes(searchTerm));
     res.json(filterData);
