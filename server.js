@@ -2,19 +2,18 @@
 
 // Load array of notes
 const data = require('./db/notes');
-
+const { PORT } = require('./config');
 console.log('Hello Noteful!');
+
 
 // INSERT EXPRESS APP CODE HERE...
 const express = require('express');
 
-//const data = require('./db/notes');
-
-const app = express();
+const app = express(); 
 
 // ADD STATIC SERVER HERE
 
-app.listen(8080, function () {
+app.listen(PORT, function () {
   console.info(`Server listening on ${this.address().port}`);
 }).on('error', err => {
   console.error(err);
