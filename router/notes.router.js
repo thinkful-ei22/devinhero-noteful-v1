@@ -91,6 +91,20 @@ router.put('/notes/:id', (req, res, next) => {
   });
 });
 
+router.delete('/notes/:id', (req, res, next) => {
+  const { id } = req.params;
+  
+  notes.delete(id, (err, item) => {
+    if (err) {
+      return next(err);
+    }
+    if (item) {
+      res.location(`http://${req.headers.host}/notes/${item.id}`).status(201).json(item);
+    } else {
+      next();
+    }
+  });
+});
 
 
 // 404
