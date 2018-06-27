@@ -11,8 +11,11 @@ const app = express();
 
 //Other setup
 const { PORT } = require('./config');
-const logger = require('./middleware/logger.js');
-app.use(logger.logRequest);
+// const logger = require('./middleware/logger.js');
+// app.use(logger.logRequest);
+
+const morgan = require('morgan');
+app.use(morgan('dev'));
 
 // ADD STATIC SERVER HERE
 app.use(express.static('public'));
