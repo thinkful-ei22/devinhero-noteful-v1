@@ -27,11 +27,12 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+// Parse request body
+app.use(express.json());
 
+
+//Router
 app.use('/api', notesRouter);
-
-// // Parse request body
-// app.use(express.json());
 
 
 // Listener
