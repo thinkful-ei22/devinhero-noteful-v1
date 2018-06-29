@@ -164,7 +164,6 @@ describe('DELETE /api/notes/:id handler', function(){
         expect(res.body).to.equal(1);
       });
   });
-
 });
 
 
