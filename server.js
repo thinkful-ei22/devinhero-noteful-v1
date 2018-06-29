@@ -14,11 +14,15 @@ const notesRouter = require('./router/notes.router');
 
 //Other setup
 const { PORT } = require('./config');
+
+//Logging
 // const logger = require('./middleware/logger.js');
 // app.use(logger.logRequest);
 
 const morgan = require('morgan');
-app.use(morgan('dev'));
+if(process.env.NODE_ENV !== 'test'){
+  app.use(morgan('dev'));
+}
 
 // ADD STATIC SERVER HERE
 app.use(express.static('public'));
@@ -35,11 +39,14 @@ app.use(express.json());
 app.use('/api', notesRouter);
 
 
-// Listener
-app.listen(PORT, function () {
-  console.info(`Server listening on ${this.address().port}`);
-}).on('error', err => {
-  console.error(err);
-});
+// Listen for incoming connections
+if (require.main === module) {
+  app.listen(PORT, function () {
+    console.info(`Server listening on ${this.address().port}`);
+  }).on('error', err => {
+    console.error(err);
+  });
+}
 
+module.exports = app; // Export for testing
 
